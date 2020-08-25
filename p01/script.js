@@ -28,40 +28,47 @@ function isValidEmail(email){
 }
 
 
+
+// function to check if required fileds have data
+function checkRequired(inputArray){
+    inputArray.forEach(function(input){
+        if (input.value === ''){
+            console.log(input.id);
+            //showError(input,input.id+' is required');
+            showError(input,`${getFieldId(input)} is required `);
+
+        }   else {
+            showSuccess(input);
+        }
+
+    });   
+}
+
+// function to check length of input field
+function checkLength(input, min, max){
+    if (input.value.length < min ){
+        showError(input,`${getFieldId(input)} needs to be at least ${min} characters`);
+    }else if (input.value.length >max){
+        showError(input,`${getFieldId(input)} needs to be less then ${max} characters`);
+    } else{
+        showSuccess(input);
+    }
+    
+
+// functoion to get the id of the input filed proper Case 
+
+function getFieldId(input){
+    return input.id.charAt(0).toUpperCase()+input.id.slice(1);
+}
+
 // This is an Event listener for the form on 
 form.addEventListener('submit',function(e){
     e.preventDefault();
-    if(username.value ===''){
-        showError(username,'Username is Required')
-    } else{
-        showSuccess(username);
-    }
-
-
-    if(email.value ===''){
-        showError(email,'Email is Required')
-
-    } else if (!isValidEmail(email.value)){
-        showError(email,'Email is invalid')
-        
-    } else{
-        showSuccess(email);
-    }
-
-
-    if(password.value ===''){
-        showError(password,'Password is Required')
-    } else{
-        showSuccess(password);
-    }
-
-
-    if(password2.value ===''){
-        showError(password2,'Confirm Password is Required')
-    } else{
-        showSuccess(password2);
-    }
  
+    checkRequired([username,email,password,password2]);
+    checkLength(username,3,10);
+    checkLength(password,6,30);
+
 })
 
 
